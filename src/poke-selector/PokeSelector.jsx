@@ -3,10 +3,12 @@ import Close from "monday-ui-react-core/dist/icons/Close";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import "./PokeSelector.scss";
 import PokeSelectorContent from "./PokeSelectorContent";
+import {useClickOutside} from "../hooks/useClickOutside";
+const MemoizedPokeSelectorContent = React.memo(PokeSelectorContent);
 
 const PokeSelector = ({ onClose }) => {
-  // TODO 1: use your useClickOutside in order to close the dialog when someone clicks outside
-
+  const dialogRef = useRef(null)
+  useClickOutside(dialogRef, onClose);
   const [date, setDate] = useState(new Date());
 
   function refreshClock() {
@@ -24,9 +26,9 @@ const PokeSelector = ({ onClose }) => {
     onClose();
   }, [onClose]);
 
-  const onSelection = (pokeSelection) => {
+  const onSelection = useCallback((pokeSelection) => {
     onClose(pokeSelection);
-  };
+  }, [onClose]);
 
   return (
     <Flex
@@ -38,8 +40,7 @@ const PokeSelector = ({ onClose }) => {
         type={DialogContentContainer.types.MODAL}
         size={DialogContentContainer.sizes.LARGE}
         className={"poke-selector_modal-content-container"}
-        // this is how you can pass ref to the dialog
-        // ref={dialogRef}
+        ref={dialogRef}
       >
         <Icon
           icon={Close}
@@ -47,7 +48,7 @@ const PokeSelector = ({ onClose }) => {
           className="poke-selector_modal-close"
         />
         <span className="clock-time">{date.toLocaleTimeString()}</span>
-        <PokeSelectorContent onSelection={onSelection} />
+        <MemoizedPokeSelectorContent onSelection={onSelection} />
       </DialogContentContainer>
     </Flex>
   );

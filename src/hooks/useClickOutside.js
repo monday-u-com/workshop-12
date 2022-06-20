@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export const useClickOutside = (ref, callback) => {
-  // TODO 1: this hook should get a reference to an element and a callback, and will call it whenever you click outside of the element
+  useEffect(() => {
+    const eventHandler = (event) => {
+      if (isClickOutside(ref.current, event)) callback();
+    };
+    window.addEventListener('click', eventHandler);
+    return () => window.removeEventListener('click', eventHandler);
+  }, [ref, callback]);
 };
 
 const isClickOutside = (element, clickEvent) => {
