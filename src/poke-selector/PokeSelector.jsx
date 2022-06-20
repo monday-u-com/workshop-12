@@ -4,6 +4,7 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import "./PokeSelector.scss";
 import PokeSelectorContent from "./PokeSelectorContent";
 import {useClickOutside} from "../hooks/useClickOutside";
+const MemoizedPokeSelectorContent = React.memo(PokeSelectorContent);
 
 const PokeSelector = ({ onClose }) => {
   const dialogRef = useRef(null)
@@ -25,9 +26,9 @@ const PokeSelector = ({ onClose }) => {
     onClose();
   }, [onClose]);
 
-  const onSelection = (pokeSelection) => {
+  const onSelection = useCallback((pokeSelection) => {
     onClose(pokeSelection);
-  };
+  }, [onClose]);
 
   return (
     <Flex
@@ -47,7 +48,7 @@ const PokeSelector = ({ onClose }) => {
           className="poke-selector_modal-close"
         />
         <span className="clock-time">{date.toLocaleTimeString()}</span>
-        <PokeSelectorContent onSelection={onSelection} />
+        <MemoizedPokeSelectorContent onSelection={onSelection} />
       </DialogContentContainer>
     </Flex>
   );
