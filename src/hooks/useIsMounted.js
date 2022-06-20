@@ -7,6 +7,6 @@ export const useIsMounted = () => {
     return () => {
       isMountedRef.current = false;
     }
-  })
+  }, [])
   return useCallback(() => isMountedRef.current, []);
 };
