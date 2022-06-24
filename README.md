@@ -6,7 +6,7 @@ Presentation link - https://docs.google.com/presentation/d/1s3cT0Q6swIHMuECF7k1x
 
 To run the app:
 
-> `npm i`
+> `npm i --force`
 >
 > `npm start`
 
