@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export const useLocalStorage = (storageKey, fallbackState) => {
   // TODO 3: After every refresh your favorite pokemomn reset, implement this hook to save it
@@ -6,7 +6,13 @@ export const useLocalStorage = (storageKey, fallbackState) => {
   // you can use:
   // localStorage.getItem
   // localStorage.setItem
-  const [value, setValue] = useState(fallbackState);
+  const [value, setValue] = useState(
+    JSON.parse(localStorage.getItem(storageKey)) ?? fallbackState
+  );
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(value));
+  }, [value, storageKey]);
 
   return [value, setValue];
 };

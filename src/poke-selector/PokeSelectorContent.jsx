@@ -7,7 +7,7 @@ import { usePokeSearch } from "./usePokeSearch";
 
 const DEBOUNCE_RATE_MS = 200;
 
-const PokeSelectorContent = ({ onSelection }) => {
+const PokeSelectorContent = React.memo(({ onSelection }) => {
   const [searchInput, setSearchInput] = useState("");
 
   const debouncedSearchInput = useDebounce(searchInput, DEBOUNCE_RATE_MS);
@@ -79,6 +79,6 @@ const PokeSelectorContent = ({ onSelection }) => {
       )}
     </Flex>
   );
-};
+});
 
 export default PokeSelectorContent;
